@@ -1,14 +1,23 @@
-import React, { useState } from 'react'
-import { Modal } from 'react-bootstrap'
+import React, { useState } from 'react';
+import { Modal } from 'react-bootstrap';
+import { useSelector , useDispatch } from 'react-redux';
+import { addToCart } from "../actions/cartActions";
 
 export default function Pizza({ pizza }) {
-    const [quantity, setquantity] = useState(1)
-    const [varient, setvarient] = useState('small')
+    const [quantity, setquantity] = useState(1);
+    const [varient, setvarient] = useState('small');
 
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const dispatch = useDispatch()
+    function addtocart()
+    {
+        dispatch(addToCart(pizza , quantity , varient))
+    }
+
 
     return (
         <div  className="shadow-lg p-3 mb-5 bg-white rounded" key={pizza._id} >
@@ -46,7 +55,7 @@ export default function Pizza({ pizza }) {
                 </div>
 
                 <div className='m-1 w-100'>
-                    <button className="btn">ADD TO CART</button>
+                    <button className="btn" onClick ={addtocart} >ADD TO CART</button>
                 </div>
             </div>
 
