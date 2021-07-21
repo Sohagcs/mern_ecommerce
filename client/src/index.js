@@ -6,6 +6,10 @@ import reportWebVitals from './reportWebVitals';
 import {Provider} from 'react-redux'
 import store from './store';
 
+import $ from 'jquery';
+import Popper from 'popper.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+
 
 ReactDOM.render(
   <Provider store={store}>
