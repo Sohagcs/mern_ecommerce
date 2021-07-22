@@ -1,3 +1,5 @@
+//place order code
+
 export const placeOrderReducer=(state={},action)=>{
 
     switch(action.type)
@@ -16,4 +18,26 @@ export const placeOrderReducer=(state={},action)=>{
         default : return state
     }
 
+}
+
+//my orders code
+
+export const getUserOrderReducer=(state={orders : []}, action)=>{
+
+    switch(action.type)
+    {
+        case 'GET_USER_ORDERS_REQUEST' : return{
+            loading : true,
+            ...state
+        }
+        case 'GET_USER_ORDERS_SUCCESS' : return{
+            loading : false,
+            orders : action.payload
+        }
+        case 'GET_USER_ORDERS_FAILED' : return{
+            error : action.payload,
+            loading : false
+        }
+        default : return state        
+    }
 }
