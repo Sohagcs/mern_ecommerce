@@ -3,9 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router';
 import { Link } from 'react-router-dom';
 import Addpizza from './Addpizza';
+import Editpizza from './Editpizza';
 import Orderslist from './Orderslist';
 import Pizzaslist from './Pizzaslist';
 import Userslist from './Userslist';
+
 
 
 export default function Adminscreen() {
@@ -24,7 +26,7 @@ export default function Adminscreen() {
     return (
         <div>
 
-            <div className="row justify-content-center">
+            <div className="row justify-content-center p-3 ">
                 <div className="col-md-10">
                     <h2 style={{fontSize:'35px'}} >Admin Panel</h2>
         
@@ -41,6 +43,7 @@ export default function Adminscreen() {
                         <Route path="/admin/orderslist" component={Orderslist} exact/>
                         <Route path="/admin/pizzaslist" component={Pizzaslist} exact/>
                         <Route path="/admin/addpizza" component={Addpizza} exact/>
+                        <Route path="/admin/editpizza/:pizzaid" component={Editpizza} exact/>
                     </Switch>
 
                 </div>

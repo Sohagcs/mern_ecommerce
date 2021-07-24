@@ -5,6 +5,7 @@ const Pizza = require('./models/pizzaModel')
 
 const db = require("./db");
 app.use(express.json());
+const path = require('path')
 
 const pizzasRoute = require('./routes/pizzasRoute')
 const userRoute = require('./routes/userRoute')
@@ -14,22 +15,17 @@ app.use('/api/pizzas/' , pizzasRoute)
 app.use('/api/users/' , userRoute)
 app.use('/api/orders/' , ordersRoute) 
 
-app.get("/", (req, res)=>{
-    res.send("Server working " + port); 
-});
+if(process.env.NODE_ENV === 'production')
+{
+    app.use('/' , express.static('client/build'))
 
-// app.get("/getpizzas", (req,res) => {
+    app.get('*' , (req , res)=> {
 
-//     Pizza.find({} , (err , docs) => {
-//         if(err) {
-//             console.log(err);
-//         }
-//         else{
-//             res.send(docs)
-//         }
-//     })
+        res.sendFile(path.resolve(__dirname , '/client/build/index.html'))
+    })
+}
 
-// });
+
 
 const port = process.env.PORT || 5000;
 

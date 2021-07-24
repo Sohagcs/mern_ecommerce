@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import {useDispatch , useSelector} from 'react-redux'
-import { addPizza } from '../actions/pizzaActions'
+import React , {useEffect , useState} from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+import { editPizza, getPizzaById } from '../actions/pizzaActions';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
 import Success from '../components/Success';
 
-export default function Addpizza() {
+export default function Editpizza({match}) {
+
+    const dispatch = useDispatch()
 
     const [name, setname] = useState('')
     const [smallprice, setsmallprice] = useState('')
@@ -14,16 +16,44 @@ export default function Addpizza() {
     const [image, setimage] = useState('')
     const [description, setdescription] = useState('')
     const [category, setcategory] = useState('')
-    
-    const dispatch = useDispatch()
 
-    const addpizzastate = useSelector(state => state.addPizzaReducer)
-    const {success , error , loading} = addpizzastate
+    const getpizzabyidstate = useSelector(state => state.getPizzaByIdReducer)
+
+    const {pizza , error , loading} = getpizzabyidstate
+
+    const editpizzastate = useSelector(state => state.editPizzaReducer)
+    const {editloading , editerror , editsuccess} = editpizzastate;
+
+    useEffect(() => {
+
+        if(pizza)
+        {
+            if(pizza._id==match.params.pizzaid)
+            {
+                setname(pizza.name)
+                setdescription(pizza.description)
+                setcategory(pizza.category)
+                setsmallprice(pizza.prices[0]['small'])
+                setmediumprice(pizza.prices[0]['medium'])
+                setlargeprice(pizza.prices[0]['large'])
+                setimage(pizza.image)
+            }
+            else{
+                dispatch(getPizzaById(match.params.pizzaid));
+            }
+        }
+        else{
+            dispatch(getPizzaById(match.params.pizzaid)); 
+        }
+
+    }, [pizza , dispatch]);
+
     function formHandler(e){
 
         e.preventDefault();
 
-        const pizza ={
+        const editedpizza ={
+            _id : match.params.pizzaid,
             name ,
             image,
             description,
@@ -32,20 +62,22 @@ export default function Addpizza() {
                 small : smallprice,
                 medium : mediumprice,
                 large : largeprice
-            }
-        }
-        console.log(pizza);
-        dispatch(addPizza(pizza));
+            },
+        };
+         
+        dispatch(editPizza(editedpizza))
     }
 
     return (
-        <div>
-            <div className='text-left shadow-lg p-3 mb-5 bg-white rounded '>
-                <h2>Add Pizza</h2>
+        <div> 
 
+            <div className='text-left shadow-lg p-3 mb-5 bg-white rounded '>
+                
+                <h2>Edit Pizza</h2>
                 {loading && (<Loading/>)}
                 {error && (<Error error='Something Went Wrong'/>)}
-                {success && (<Success success= 'New Pizza added successfully'/>)}
+                {editsuccess && (<Success success='Pizza Details Edited Successfully'/>)}
+                {editloading && (<Loading/>)}
 
                 <form onSubmit={formHandler}>
                     <input className='form-control' type="text" placeholder="Name" value={name} onChange={(e) => { setname(e.target.value) }} />
@@ -56,7 +88,7 @@ export default function Addpizza() {
                     <input className='form-control' type="text" placeholder="Add Description" value={description} onChange={(e) => { setdescription(e.target.value) }} />
                     <input className='form-control' type="text" placeholder="Category" value={category} onChange={(e) => { setcategory(e.target.value) }} />
 
-                    <button className='btn mt-3' type='submit' >Add Pizza</button>
+                    <button className='btn mt-3' type='submit' >Edit Pizza</button>
                 </form>
             </div>
         </div>

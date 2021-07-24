@@ -34,3 +34,63 @@ export const filterPizzas=(searchkey , category)=> async dispatch=>{
     }
 
 }
+
+//add new pizza from admin
+export const addPizza=(pizza)=>async dispatch=>{
+
+    dispatch({type:'ADD_PIZZA_REQUEST'})
+
+    try {
+        const response = await axios.post('/api/pizzas/addpizza' , {pizza})
+        console.log(response);
+        dispatch({type:'ADD_PIZZA_SUCCESS'})
+    } catch (error) {
+        dispatch({type:'ADD_PIZZA_FAILED' , payload : error})
+    }
+}
+
+// edit pizza
+
+export const getPizzaById=(pizzaid)=> async dispatch=>{
+
+    dispatch({type:'GET_PIZZABYID_REQUEST'})
+
+    try {
+        const response = await axios.post('/api/pizzas/getpizzabyid' , {pizzaid})
+        console.log(response);
+        dispatch({type:'GET_PIZZABYID_SUCCESS' , payload : response.data})
+    } catch (error) {
+        dispatch({type:'GET_PIZZABYID_FAILED' , payload : error})
+    }
+
+}
+
+//update edit pizza
+
+export const editPizza=(editedpizza)=>async dispatch=>{
+
+    dispatch({type:'EDIT_PIZZA_REQUEST'})
+
+    try {
+        const response = await axios.post('/api/pizzas/editpizza' , {editedpizza})
+        console.log(response);
+        dispatch({type:'EDIT_PIZZA_SUCCESS'})
+        window.location.href='/admin/pizzaslist'
+    } catch (error) {
+        dispatch({type:'EDIT_PIZZA_FAILED' , payload : error})
+    }
+}
+
+//delete pizza
+
+export const deletePizza=(pizzaid)=>async dispatch=>{
+   try {
+       const response = await axios.post('/api/pizzas/deletepizza' , {pizzaid})
+       alert('Pizza Deleted Successfully') 
+       console.log(response);
+        window.location.reload()
+    } catch (error) {
+       alert('Something Went Wrong')
+       console.log(error);
+   }
+}    

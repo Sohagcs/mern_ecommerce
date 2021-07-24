@@ -9,7 +9,7 @@ const pizzaSchema = mongoose.Schema({
     description : {type: String , require}
 
 } , {
-    timestamp:true,
+    timestamps:true,
 })
 
 const pizzaModel = mongoose.model ('pizzas' , pizzaSchema)

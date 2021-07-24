@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllPizzas } from '../actions/pizzaActions';
+import { Link } from 'react-router-dom';
+import { deletePizza, getAllPizzas } from '../actions/pizzaActions';
 import Error from '../components/Error';
-import Filter from '../components/Filter';
 import Loading from '../components/Loading';
-
 
 export default function Pizzaslist() {
     const dispatch = useDispatch();
@@ -22,7 +21,7 @@ export default function Pizzaslist() {
             {loading && (<Loading/>)}
             {error && (<Error error='Something Went Wrong'/>)}
 
-            <table className='table table-bordered'>
+            <table className='table table-bordered table-responsive-sm '>
 
                 <thead className='thead-dark'>
                     <tr>
@@ -46,8 +45,8 @@ export default function Pizzaslist() {
                             </td>
                             <td>{pizza.category}</td>
                             <td>
-                                <i className='fa fa-trash m-1'></i>
-                                <i className='fa fa-edit m-1'></i>
+                                <i className='fa fa-trash m-1'onClick={()=>{dispatch(deletePizza(pizza._id))}}></i>
+                                <Link to={`/admin/editpizza/${pizza._id}`}><i className='fa fa-edit m-1'></i></Link>
                             </td>
                         </tr>
                     );

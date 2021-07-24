@@ -35,3 +35,33 @@ export const logoutUser=()=> dispatch=>{
     window.location.href='/login'
 
 }
+
+//  users list in admin panel
+
+export const getAllUsers=()=> async dispatch=>{
+
+    dispatch({type:'GET_USERS_REQUEST'})
+
+    try {
+        const response = await axios.get('/api/users/getallusers')
+        console.log(response);
+        dispatch({type:'GET_USERS_SUCCESS' , payload : response.data})
+    } catch (error) {
+        dispatch({type:'GET_USERS_FAILED' , payload : error})
+        console.log(error);
+    }
+
+}
+
+// user delete button
+
+export const deleteUser=(userid)=> async dispatch=>{
+    try {
+        await axios.post('/api/users/deleteuser', {userid})
+        alert('User Deleted Successfully')
+        window.location.reload()
+    } catch (error) {
+        alert('Something Went Wrong')
+        console.log(error);
+    }
+}

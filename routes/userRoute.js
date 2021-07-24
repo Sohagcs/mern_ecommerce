@@ -46,4 +46,27 @@ router.post("/login", async(req,res) => {
     }
 });
 
+//users list in admin panel
+
+router.get("/getallusers", async(req,res) => {
+    try {
+        const users = await User.find({})
+        res.send(users)
+    } catch (error) {
+        return res.status(400).json({messege : error });
+    }
+});    
+
+router.post("/deleteuser", async(req,res) => {
+    const userid = req.body.userid 
+
+    try {
+        await User.findOneAndDelete({_id : userid})
+        res.send('User Deleted Successfully')
+    } catch (error) {
+        return res.status(400).json({messege : error });
+    }
+});    
+
+
 module.exports = router

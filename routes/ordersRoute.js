@@ -63,6 +63,32 @@ router.post("/getuserorders" , async (req, res) => {
     }
 });
 
+//admin orders panel
 
+router.get("/getallorders" , async (req, res) => {
+
+    try {
+        const orders = await Order.find({})
+        res.send(orders)
+    } catch (error) {
+        return res.status(400).json({ messege: error });
+    }
+});
+
+// delivery button admin pannel
+
+router.post("/deliverorder" , async (req, res) => {
+
+    const orderid = req.body.orderid
+    try {
+        const order = await Order.findOne({_id : orderid})
+        order.isDelivered = true
+        await order.save()
+        res.send('Order Delivered Successfully')
+    } catch (error) {
+        return res.status(400).json({ messege: 'Something Went Wrong' });
+    }
+
+});    
 
 module.exports = router

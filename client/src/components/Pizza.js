@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { useSelector , useDispatch } from 'react-redux';
 import { addToCart } from "../actions/cartActions";
+import AOS from 'aos'
+import 'aos/dist/aos.css';
 
 export default function Pizza({ pizza }) {
+
+    AOS.init()
+
     const [quantity, setquantity] = useState(1);
     const [varient, setvarient] = useState('small');
 
@@ -20,7 +25,8 @@ export default function Pizza({ pizza }) {
 
 
     return (
-        <div  className="shadow-lg p-3 mb-5 bg-white rounded" key={pizza._id} >
+        <div  data-aos='zoom-in'
+        className="shadow-lg p-3 mb-5 bg-white rounded" key={pizza._id} >
 
             <div onClick={handleShow}>
                 <h1> {pizza.name} </h1>
